@@ -90,6 +90,7 @@ import { CaslAbilityFactory } from '@waha/core/auth/casl.ability';
 import { PoliciesGuard } from '@waha/core/auth/policies.guard';
 import { ApiKeyAuthService } from './auth/ApiKeyAuthService';
 import { SessionService } from '@waha/core/services/SessionService';
+import { VaatiModule } from '@waha/vaati/vaati.module';
 
 export const IMPORTS_CORE = [
   ...AppsModuleExports.imports,
@@ -158,6 +159,7 @@ export const IMPORTS_CORE = [
   ConditionalModule.registerWhen(SwaggerEnabledModule, isSwaggerEnabled, {
     debug: isDebugEnabled(),
   }),
+  VaatiModule,
 ];
 
 const IMPORTS_MEDIA = [
