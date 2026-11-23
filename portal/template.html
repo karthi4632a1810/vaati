@@ -376,6 +376,33 @@
             <span id="sidebarTenantCount" class="ml-auto px-2 py-0.5 rounded-full text-[10px] bg-[#C76323]/10 text-[#C76323] font-bold">0</span>
           </button>
 
+          <!-- VAATI BROKER: EXCHANGES -->
+          <button type="button" onclick="switchTab('exchanges')" id="tabBtn-exchanges" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition text-left cursor-pointer text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5">
+            <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+            </svg>
+            <span>Exchanges Engine</span>
+            <span id="sidebarExchangesBadge" class="ml-auto px-1.5 py-0.5 rounded-full text-[9px] bg-indigo-500/10 text-indigo-500 font-bold">0</span>
+          </button>
+
+          <!-- VAATI BROKER: QUEUES FLEET -->
+          <button type="button" onclick="switchTab('queues')" id="tabBtn-queues" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition text-left cursor-pointer text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5">
+            <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+            <span>Queue Fleet</span>
+            <span id="sidebarQueuesBadge" class="ml-auto px-1.5 py-0.5 rounded-full text-[9px] bg-cyan-500/10 text-cyan-500 font-bold">0</span>
+          </button>
+
+          <!-- VAATI RELIABILITY: DEAD LETTER OFFICE -->
+          <button type="button" onclick="switchTab('dlq')" id="tabBtn-dlq" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition text-left cursor-pointer text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5">
+            <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            <span>Dead Letter Office</span>
+            <span id="sidebarDlqBadge" class="ml-auto px-1.5 py-0.5 rounded-full text-[9px] bg-rose-500/10 text-rose-500 font-bold">0</span>
+          </button>
+
           <!-- WHATSAPP LIVE CHAT INBOX -->
           <button type="button" onclick="switchTab('chat')" id="tabBtn-chat" class="nav-tab w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition text-left cursor-pointer text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5">
             <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -422,10 +449,10 @@
         <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 text-xs">
           <p class="font-bold text-slate-800 dark:text-slate-200 flex items-center justify-between">
             <span>VAATI Platform</span>
-            <span class="text-[10px] text-[#C76323] font-bold">v1.3</span>
+            <span class="text-[10px] text-[#C76323] font-bold">v2.0 Distributed</span>
           </p>
           <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-            Engine: WEBJS (WAHA Node 3001)
+            Engine: BullMQ + Redis + WAHA Node 3001
           </p>
         </div>
       </aside>
@@ -538,6 +565,75 @@
               <div class="mt-4 flex items-baseline gap-2">
                 <span class="text-2xl font-extrabold text-[#C76323]">Port 3001</span>
                 <span class="text-xs text-slate-400">REST + WS</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- VAATI 2.0 Distributed Broker Telemetry Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Broker Card 1: Active Exchanges -->
+            <div class="p-5 rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#121418] shadow-sm">
+              <div class="flex items-center justify-between text-slate-500 dark:text-slate-400">
+                <span class="text-xs font-semibold uppercase tracking-wider">AMQP Exchanges</span>
+                <div class="p-2 rounded-xl bg-indigo-500/10 text-indigo-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="mt-4 flex items-baseline gap-2">
+                <span id="kpiExchangesCount" class="text-3xl font-extrabold text-indigo-500">0</span>
+                <span class="text-xs text-slate-400">declared</span>
+              </div>
+            </div>
+
+            <!-- Broker Card 2: Queues Managed -->
+            <div class="p-5 rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#121418] shadow-sm">
+              <div class="flex items-center justify-between text-slate-500 dark:text-slate-400">
+                <span class="text-xs font-semibold uppercase tracking-wider">Queue Fleet</span>
+                <div class="p-2 rounded-xl bg-cyan-500/10 text-cyan-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="mt-4 flex items-baseline gap-2">
+                <span id="kpiQueuesCount" class="text-3xl font-extrabold text-cyan-500">0</span>
+                <span class="text-xs text-slate-400">active queues</span>
+              </div>
+            </div>
+
+            <!-- Broker Card 3: Dead Letters -->
+            <div class="p-5 rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#121418] shadow-sm">
+              <div class="flex items-center justify-between text-slate-500 dark:text-slate-400">
+                <span class="text-xs font-semibold uppercase tracking-wider">Dead Letter Quarantine</span>
+                <div class="p-2 rounded-xl bg-rose-500/10 text-rose-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="mt-4 flex items-baseline gap-2">
+                <span id="kpiDlqCount" class="text-3xl font-extrabold text-rose-500">0</span>
+                <span class="text-xs text-slate-400">unresolved</span>
+              </div>
+            </div>
+
+            <!-- Broker Card 4: Ingestion & Outbox Engine -->
+            <div class="p-5 rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#121418] shadow-sm">
+              <div class="flex items-center justify-between text-slate-500 dark:text-slate-400">
+                <span class="text-xs font-semibold uppercase tracking-wider">Broker Engine</span>
+                <div class="p-2 rounded-xl bg-emerald-500/10 text-emerald-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="mt-4 flex items-baseline gap-2">
+                <span id="kpiBrokerStatus" class="text-2xl font-extrabold text-emerald-500">ONLINE</span>
+                <span class="text-xs text-slate-400">BullMQ + Redis</span>
               </div>
             </div>
 
@@ -1403,6 +1499,320 @@
           </div>
         </div>
 
+        <!-- ============================= -->
+        <!-- TAB 7: AMQP EXCHANGES ENGINE  -->
+        <!-- ============================= -->
+        <div id="tab-exchanges" class="tab-content hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                <span>AMQP Exchanges Engine</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-500 font-semibold border border-indigo-500/30">RabbitMQ Semantics</span>
+              </h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Direct, Topic, Fanout, and Headers routing exchanges with binding rules
+              </p>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <button 
+                type="button" 
+                onclick="fetchExchanges(true)"
+                class="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-indigo-500 cursor-pointer transition flex items-center gap-1.5"
+                title="Refresh Exchanges"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Sync
+              </button>
+
+              <button 
+                type="button" 
+                onclick="openDeclareExchangeModal()" 
+                class="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/25 cursor-pointer transition flex items-center gap-1.5"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Declare Exchange
+              </button>
+            </div>
+          </div>
+
+          <!-- Exchanges Table Card -->
+          <div class="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#121418] shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Active Exchanges</h3>
+                <p class="text-xs text-slate-400">Message distribution points delivering to bound queues</p>
+              </div>
+              <span id="exchangesCountBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-500">
+                0 Exchanges
+              </span>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                <thead class="bg-slate-50 dark:bg-white/[0.02] text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-100 dark:border-white/5">
+                  <tr>
+                    <th class="px-5 py-3.5 font-bold">Exchange Name</th>
+                    <th class="px-5 py-3.5 font-bold">Type</th>
+                    <th class="px-5 py-3.5 font-bold">Durability</th>
+                    <th class="px-5 py-3.5 font-bold">Auto-Delete</th>
+                    <th class="px-5 py-3.5 font-bold">Bindings</th>
+                    <th class="px-5 py-3.5 font-bold text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="exchangesTableBody" class="divide-y divide-slate-100 dark:divide-white/5 font-mono">
+                  <tr>
+                    <td colspan="6" class="px-5 py-8 text-center text-slate-400 font-sans">
+                      Loading declared exchanges...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Quick Test Publisher Workbench -->
+          <div class="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#121418] p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-3">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <span>Direct Event Publisher Workbench</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 font-semibold">Live Ingestion</span>
+                </h3>
+                <p class="text-xs text-slate-400 mt-0.5">Publish a message directly to any exchange to test routing and workers</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Target Exchange</label>
+                <input 
+                  type="text" 
+                  id="testPubExchange" 
+                  value="hospital.events" 
+                  placeholder="e.g. hospital.events"
+                  class="w-full px-3.5 py-2 rounded-xl text-xs border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Routing Key</label>
+                <input 
+                  type="text" 
+                  id="testPubRoutingKey" 
+                  value="lab.report.ready" 
+                  placeholder="e.g. lab.report.ready"
+                  class="w-full px-3.5 py-2 rounded-xl text-xs border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Priority (1-10)</label>
+                <input 
+                  type="number" 
+                  id="testPubPriority" 
+                  value="5" 
+                  min="1" 
+                  max="10"
+                  class="w-full px-3.5 py-2 rounded-xl text-xs border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-indigo-500"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Message Payload (JSON)</label>
+              <textarea 
+                id="testPubPayload" 
+                rows="4" 
+                class="w-full px-3.5 py-2 rounded-xl text-xs border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-indigo-500 leading-relaxed"
+              >{
+  "reportId": "LAB-2026-9081",
+  "patientReference": "PAT-44910",
+  "status": "COMPLETED",
+  "department": "Biochemistry",
+  "urgent": true
+}</textarea>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <span id="testPubStatus" class="text-xs text-slate-400">Ready to dispatch</span>
+              <button 
+                type="button" 
+                onclick="submitBrokerTestPublish()" 
+                class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/25 cursor-pointer transition flex items-center gap-2"
+              >
+                <span>Publish Event &rarr;</span>
+              </button>
+            </div>
+
+            <div id="testPubResultBox" class="hidden p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-emerald-400 overflow-x-auto">
+              <pre id="testPubResultPre"></pre>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- TAB 8: DISTRIBUTED QUEUE FLEET -->
+        <!-- ============================= -->
+        <div id="tab-queues" class="tab-content hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                <span>Distributed Queue Fleet</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/15 text-cyan-500 font-semibold border border-cyan-500/30">BullMQ + Redis</span>
+              </h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Active job queues, concurrency governors, pause/resume and live backlog telemetry
+              </p>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <button 
+                type="button" 
+                onclick="fetchQueues(true)"
+                class="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-cyan-500 cursor-pointer transition flex items-center gap-1.5"
+                title="Refresh Queues"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Sync
+              </button>
+
+              <button 
+                type="button" 
+                onclick="openDeclareQueueModal()" 
+                class="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-cyan-600 hover:bg-cyan-700 shadow-md shadow-cyan-600/25 cursor-pointer transition flex items-center gap-1.5"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Declare Queue
+              </button>
+            </div>
+          </div>
+
+          <!-- Queues Table Card -->
+          <div class="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#121418] shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Managed Queues</h3>
+                <p class="text-xs text-slate-400">Real-time BullMQ job states across worker partitions</p>
+              </div>
+              <span id="queuesCountBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-cyan-500/10 text-cyan-500">
+                0 Queues
+              </span>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                <thead class="bg-slate-50 dark:bg-white/[0.02] text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-100 dark:border-white/5">
+                  <tr>
+                    <th class="px-5 py-3.5 font-bold">Queue Name</th>
+                    <th class="px-5 py-3.5 font-bold">Status</th>
+                    <th class="px-5 py-3.5 font-bold">Waiting</th>
+                    <th class="px-5 py-3.5 font-bold">Active</th>
+                    <th class="px-5 py-3.5 font-bold">Delayed</th>
+                    <th class="px-5 py-3.5 font-bold">Failed</th>
+                    <th class="px-5 py-3.5 font-bold">DLX / TTL</th>
+                    <th class="px-5 py-3.5 font-bold text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="queuesTableBody" class="divide-y divide-slate-100 dark:divide-white/5 font-mono">
+                  <tr>
+                    <td colspan="8" class="px-5 py-8 text-center text-slate-400 font-sans">
+                      Loading queue fleet telemetry...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- TAB 9: DEAD LETTER OFFICE     -->
+        <!-- ============================= -->
+        <div id="tab-dlq" class="tab-content hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                <span>Dead Letter Office & Quarantine</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-rose-500/15 text-rose-500 font-semibold border border-rose-500/30">Failure Isolation</span>
+              </h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Quarantined poison pills, unroutable events, and 1-click re-drive orchestrator
+              </p>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <button 
+                type="button" 
+                onclick="fetchDeadLetters(true)"
+                class="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 hover:border-rose-500 cursor-pointer transition flex items-center gap-1.5"
+                title="Refresh Dead Letters"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Sync
+              </button>
+
+              <button 
+                type="button" 
+                onclick="bulkReplayDeadLetters()" 
+                class="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-rose-600 hover:bg-rose-700 shadow-md shadow-rose-600/25 cursor-pointer transition flex items-center gap-1.5"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                1-Click Bulk Replay
+              </button>
+            </div>
+          </div>
+
+          <!-- DLQ Table Card -->
+          <div class="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-[#121418] shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Quarantined Messages</h3>
+                <p class="text-xs text-slate-400">Forensic inspection of failed messages, retries, and stack traces</p>
+              </div>
+              <span id="dlqCountBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-500/10 text-rose-500">
+                0 Quarantined
+              </span>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs text-slate-600 dark:text-slate-300">
+                <thead class="bg-slate-50 dark:bg-white/[0.02] text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-100 dark:border-white/5">
+                  <tr>
+                    <th class="px-5 py-3.5 font-bold">Dead Letter ID</th>
+                    <th class="px-5 py-3.5 font-bold">Queue / Key</th>
+                    <th class="px-5 py-3.5 font-bold">Attempts</th>
+                    <th class="px-5 py-3.5 font-bold">Failure Reason</th>
+                    <th class="px-5 py-3.5 font-bold">Quarantined At</th>
+                    <th class="px-5 py-3.5 font-bold text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="dlqTableBody" class="divide-y divide-slate-100 dark:divide-white/5 font-mono">
+                  <tr>
+                    <td colspan="6" class="px-5 py-8 text-center text-slate-400 font-sans">
+                      No quarantined dead letters found. All queues healthy!
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </main>
     </div>
   </div>
@@ -2216,6 +2626,357 @@
   </div>
 
   <!-- ============================================== -->
+  <!-- MODAL 6: DECLARE AMQP EXCHANGE                 -->
+  <!-- ============================================== -->
+  <div id="declareExchangeModal" style="display: none;" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-lg rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#121418] shadow-2xl overflow-hidden transition-all">
+      <div class="h-1.5 bg-indigo-600"></div>
+      <div class="p-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-white/5">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-500/15 text-indigo-500 flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">Declare AMQP Exchange</h3>
+              <p class="text-[11px] text-slate-400">Create a direct, topic, fanout, or headers distribution exchange</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeDeclareExchangeModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer p-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="space-y-4 py-4 text-xs">
+          <div>
+            <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Exchange Name</label>
+            <input 
+              type="text" 
+              id="modalExName" 
+              placeholder="e.g. hospital.events, notifications.fanout"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Exchange Type</label>
+            <select 
+              id="modalExType"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-semibold focus:outline-none focus:border-indigo-500"
+            >
+              <option value="topic">TOPIC (Wildcards *, #)</option>
+              <option value="direct">DIRECT (Exact routing key match)</option>
+              <option value="fanout">FANOUT (Broadcast to all bound queues)</option>
+              <option value="headers">HEADERS (Match message metadata)</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-6 pt-1">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="modalExDurable" checked class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              <span class="font-medium text-slate-700 dark:text-slate-300">Durable (Survives broker restart)</span>
+            </label>
+
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="modalExAutoDelete" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+              <span class="font-medium text-slate-700 dark:text-slate-300">Auto Delete</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 dark:border-white/5">
+          <button 
+            type="button" 
+            onclick="closeDeclareExchangeModal()" 
+            class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer transition"
+          >
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            onclick="submitDeclareExchange()" 
+            class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/25 cursor-pointer transition"
+          >
+            Declare Exchange
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================== -->
+  <!-- MODAL 7: DECLARE DISTRIBUTED QUEUE             -->
+  <!-- ============================================== -->
+  <div id="declareQueueModal" style="display: none;" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-lg rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#121418] shadow-2xl overflow-hidden transition-all">
+      <div class="h-1.5 bg-cyan-600"></div>
+      <div class="p-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-white/5">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-cyan-500/15 text-cyan-500 flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">Declare Queue</h3>
+              <p class="text-[11px] text-slate-400">Configure BullMQ backed durable queue with DLQ & retry bounds</p>
+            </div>
+          </div>
+          <button type="button" onclick="closeDeclareQueueModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer p-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="space-y-4 py-4 text-xs">
+          <div>
+            <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Queue Name</label>
+            <input 
+              type="text" 
+              id="modalQName" 
+              placeholder="e.g. lis.orders.queue, pacs.urgent.dlq"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-cyan-500"
+            />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Max Retry Attempts</label>
+              <input 
+                type="number" 
+                id="modalQMaxAttempts" 
+                value="5" 
+                min="1" 
+                max="25"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-cyan-500"
+              />
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Concurrency Limit</label>
+              <input 
+                type="number" 
+                id="modalQConcurrency" 
+                value="50" 
+                min="1" 
+                max="500"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-cyan-500"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Dead Letter Exchange (DLX)</label>
+              <input 
+                type="text" 
+                id="modalQDlExchange" 
+                placeholder="e.g. vaati.dlx"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-cyan-500"
+              />
+            </div>
+
+            <div>
+              <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">DLQ Routing Key</label>
+              <input 
+                type="text" 
+                id="modalQDlKey" 
+                placeholder="e.g. dlq.failed"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-cyan-500"
+              />
+            </div>
+          </div>
+
+          <div class="flex items-center gap-6 pt-1">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="modalQDurable" checked class="rounded border-slate-300 text-cyan-600 focus:ring-cyan-500" />
+              <span class="font-medium text-slate-700 dark:text-slate-300">Durable</span>
+            </label>
+
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="modalQPriority" class="rounded border-slate-300 text-cyan-600 focus:ring-cyan-500" />
+              <span class="font-medium text-slate-700 dark:text-slate-300">Enable Priorities (1-10)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 dark:border-white/5">
+          <button 
+            type="button" 
+            onclick="closeDeclareQueueModal()" 
+            class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer transition"
+          >
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            onclick="submitDeclareQueue()" 
+            class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-700 shadow-md shadow-cyan-600/25 cursor-pointer transition"
+          >
+            Declare Queue
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================== -->
+  <!-- MODAL 8: BIND QUEUE TO EXCHANGE                -->
+  <!-- ============================================== -->
+  <div id="bindQueueModal" style="display: none;" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-md rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#121418] shadow-2xl overflow-hidden transition-all">
+      <div class="h-1.5 bg-indigo-600"></div>
+      <div class="p-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-white/5">
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Bind Queue to Exchange</h3>
+            <p class="text-[11px] text-slate-400">Target Exchange: <span id="modalBindExchangeDisplay" class="font-mono text-indigo-500 font-bold"></span></p>
+          </div>
+          <button type="button" onclick="closeBindQueueModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer p-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <input type="hidden" id="modalBindExchangeHidden" />
+
+        <div class="space-y-4 py-4 text-xs">
+          <div>
+            <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Queue Name</label>
+            <input 
+              type="text" 
+              id="modalBindQueueName" 
+              placeholder="e.g. lis.orders.queue"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Routing Key / Topic Pattern</label>
+            <input 
+              type="text" 
+              id="modalBindKey" 
+              placeholder="e.g. lab.*, hospital.#, or exact key"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] text-slate-900 dark:text-white font-mono focus:outline-none focus:border-indigo-500"
+            />
+            <p class="text-[10px] text-slate-400 mt-1">Use <code class="text-indigo-400">*</code> for single word, <code class="text-indigo-400">#</code> for zero or more words.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100 dark:border-white/5">
+          <button 
+            type="button" 
+            onclick="closeBindQueueModal()" 
+            class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer transition"
+          >
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            onclick="submitBindQueue()" 
+            class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md shadow-indigo-600/25 cursor-pointer transition"
+          >
+            Create Binding
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================== -->
+  <!-- MODAL 9: DEAD LETTER FORENSIC INSPECTOR        -->
+  <!-- ============================================== -->
+  <div id="deadLetterModal" style="display: none;" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-2xl rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#121418] shadow-2xl overflow-hidden transition-all">
+      <div class="h-1.5 bg-rose-600"></div>
+      <div class="p-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-white/5">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-rose-500/15 text-rose-500 flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">Dead Letter Forensic Inspector</h3>
+              <p class="text-[11px] text-slate-400">ID: <span id="dlqModalId" class="font-mono text-rose-500"></span></p>
+            </div>
+          </div>
+          <button type="button" onclick="closeDeadLetterModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer p-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="space-y-4 py-4 text-xs">
+          <div class="grid grid-cols-3 gap-3 p-3 rounded-xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/5">
+            <div>
+              <span class="text-slate-400 block text-[10px] uppercase font-bold">Original Queue</span>
+              <span id="dlqModalQueue" class="font-mono font-semibold text-slate-800 dark:text-slate-200"></span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px] uppercase font-bold">Routing Key</span>
+              <span id="dlqModalKey" class="font-mono font-semibold text-slate-800 dark:text-slate-200"></span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px] uppercase font-bold">Attempts Exhausted</span>
+              <span id="dlqModalAttempts" class="font-mono font-semibold text-rose-500"></span>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Error Reason & Stack Trace</label>
+            <pre id="dlqModalError" class="p-3.5 rounded-xl bg-rose-950/20 border border-rose-500/20 text-rose-400 font-mono text-[11px] max-h-36 overflow-y-auto whitespace-pre-wrap"></pre>
+          </div>
+
+          <div>
+            <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Original Message Payload</label>
+            <pre id="dlqModalPayload" class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 font-mono text-[11px] max-h-48 overflow-y-auto whitespace-pre-wrap"></pre>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-white/5">
+          <button 
+            type="button" 
+            id="dlqModalDiscardBtn"
+            class="px-4 py-2 rounded-xl text-xs font-semibold text-rose-600 hover:bg-rose-500/10 cursor-pointer transition"
+          >
+            Permanently Discard
+          </button>
+
+          <div class="flex items-center gap-2">
+            <button 
+              type="button" 
+              onclick="closeDeadLetterModal()" 
+              class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 cursor-pointer transition"
+            >
+              Close
+            </button>
+            <button 
+              type="button" 
+              id="dlqModalReplayBtn"
+              class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 shadow-md shadow-rose-600/25 cursor-pointer transition flex items-center gap-1.5"
+            >
+              <span>1-Click Replay &rarr;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
   <!-- JAVASCRIPT: ROBUST LOGIC & INTEGRATIONS        -->
   <!-- ============================================== -->
   <script>
@@ -2392,6 +3153,12 @@
         renderEventLogs();
       } else if (tabName === 'api') {
         renderApiWorkbench();
+      } else if (tabName === 'exchanges') {
+        fetchExchanges();
+      } else if (tabName === 'queues') {
+        fetchQueues();
+      } else if (tabName === 'dlq') {
+        fetchDeadLetters();
       }
     }
 
@@ -4751,12 +5518,842 @@ sendWhatsAppMessage();`;
       }
     }
 
+    // ==============================================
+    // VAATI 2.0 DISTRIBUTED BROKER CLIENT LOGIC
+    // ==============================================
+
+    function getBrokerHeaders() {
+      return {
+        'Content-Type': 'application/json',
+        'X-Api-Key': DEFAULT_WAHA_API_KEY,
+        'x-vaati-tenant-id': 'default'
+      };
+    }
+
+    async function refreshBrokerOverview() {
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const headers = getBrokerHeaders();
+
+        // 1. Exchanges count
+        fetch(`${wahaUrl}/api/v1/exchanges`, { headers: headers })
+          .then(res => res.ok ? res.json() : [])
+          .then(list => {
+            const count = Array.isArray(list) ? list.length : 0;
+            const el = document.getElementById('kpiExchangesCount');
+            if (el) el.textContent = count;
+            const sbBadge = document.getElementById('sidebarExchangesBadge');
+            if (sbBadge) sbBadge.textContent = count;
+            const tabBadge = document.getElementById('exchangesCountBadge');
+            if (tabBadge) tabBadge.textContent = `${count} Exchanges`;
+          })
+          .catch(() => {});
+
+        // 2. Queues count
+        fetch(`${wahaUrl}/api/v1/queues`, { headers: headers })
+          .then(res => res.ok ? res.json() : [])
+          .then(list => {
+            const count = Array.isArray(list) ? list.length : 0;
+            const el = document.getElementById('kpiQueuesCount');
+            if (el) el.textContent = count;
+            const sbBadge = document.getElementById('sidebarQueuesBadge');
+            if (sbBadge) sbBadge.textContent = count;
+            const tabBadge = document.getElementById('queuesCountBadge');
+            if (tabBadge) tabBadge.textContent = `${count} Queues`;
+          })
+          .catch(() => {});
+
+        // 3. DLQ count
+        fetch(`${wahaUrl}/api/v1/dead-letter?limit=100`, { headers: headers })
+          .then(res => res.ok ? res.json() : { items: [] })
+          .then(data => {
+            const items = Array.isArray(data) ? data : (data.items || []);
+            const count = items.length;
+            const el = document.getElementById('kpiDlqCount');
+            if (el) el.textContent = count;
+            const sbBadge = document.getElementById('sidebarDlqBadge');
+            if (sbBadge) sbBadge.textContent = count;
+            const tabBadge = document.getElementById('dlqCountBadge');
+            if (tabBadge) tabBadge.textContent = `${count} Quarantined`;
+          })
+          .catch(() => {});
+
+        // 4. Broker Health check
+        fetch(`${wahaUrl}/api/v1/health/readiness`, { headers: headers })
+          .then(res => res.ok ? res.json() : { status: 'DEGRADED' })
+          .then(health => {
+            const el = document.getElementById('kpiBrokerStatus');
+            if (el) {
+              const isHealthy = health.status === 'HEALTHY' || health.status === 'ok';
+              el.textContent = isHealthy ? 'ONLINE' : 'DEGRADED';
+              el.className = `text-2xl font-extrabold ${isHealthy ? 'text-emerald-500' : 'text-amber-500'}`;
+            }
+          })
+          .catch(() => {
+            const el = document.getElementById('kpiBrokerStatus');
+            if (el) {
+              el.textContent = 'ONLINE';
+              el.className = 'text-2xl font-extrabold text-emerald-500';
+            }
+          });
+      } catch (err) {}
+    }
+
+    // --- Exchanges Management ---
+    async function fetchExchanges(showToastNotice = false) {
+      const tbody = document.getElementById('exchangesTableBody');
+      if (showToastNotice) showToast('Syncing AMQP exchanges...');
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/exchanges`, {
+          headers: getBrokerHeaders()
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const exchanges = await res.json();
+        
+        const count = Array.isArray(exchanges) ? exchanges.length : 0;
+        const countBadge = document.getElementById('exchangesCountBadge');
+        if (countBadge) countBadge.textContent = `${count} Exchanges`;
+        const sbBadge = document.getElementById('sidebarExchangesBadge');
+        if (sbBadge) sbBadge.textContent = count;
+        const kpi = document.getElementById('kpiExchangesCount');
+        if (kpi) kpi.textContent = count;
+
+        if (!tbody) return;
+        if (!Array.isArray(exchanges) || exchanges.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="px-5 py-8 text-center text-slate-400 font-sans">
+                No exchanges declared yet for this tenant. Click '+ Declare Exchange' to create one.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        let html = '';
+        for (const ex of exchanges) {
+          const typeBadgeColor = 
+            ex.type === 'topic' ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/30' :
+            ex.type === 'direct' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' :
+            ex.type === 'fanout' ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30' :
+            'bg-amber-500/15 text-amber-400 border border-amber-500/30';
+
+          const durableBadge = ex.durable 
+            ? '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-500">DURABLE</span>' 
+            : '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-500/10 text-slate-400">TRANSIENT</span>';
+
+          const autoDelBadge = ex.autoDelete 
+            ? '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-500">YES</span>' 
+            : '<span class="px-2 py-0.5 rounded text-[10px] font-semibold text-slate-400">NO</span>';
+
+          const bindingsCount = Array.isArray(ex.bindings) ? ex.bindings.length : 0;
+
+          html += `
+            <tr class="hover:bg-slate-50 dark:hover:bg-white/[0.02] transition">
+              <td class="px-5 py-4 font-bold text-slate-900 dark:text-white">${ex.name}</td>
+              <td class="px-5 py-4">
+                <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase ${typeBadgeColor}">${ex.type}</span>
+              </td>
+              <td class="px-5 py-4">${durableBadge}</td>
+              <td class="px-5 py-4">${autoDelBadge}</td>
+              <td class="px-5 py-4 text-slate-400">
+                <span class="font-bold text-slate-700 dark:text-slate-300">${bindingsCount}</span> bound
+              </td>
+              <td class="px-5 py-4 text-right">
+                <div class="flex items-center justify-end gap-2">
+                  <button 
+                    type="button" 
+                    onclick="openBindQueueModal('${ex.name}')" 
+                    class="px-2.5 py-1 rounded-lg text-[11px] font-semibold text-indigo-500 bg-indigo-500/10 hover:bg-indigo-500/20 cursor-pointer transition"
+                    title="Bind queue"
+                  >
+                    + Bind
+                  </button>
+                  <button 
+                    type="button" 
+                    onclick="deleteExchange('${ex.name}')" 
+                    class="px-2.5 py-1 rounded-lg text-[11px] font-semibold text-rose-500 bg-rose-500/10 hover:bg-rose-500/20 cursor-pointer transition"
+                    title="Delete exchange"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+        tbody.innerHTML = html;
+        if (showToastNotice) showToast(`Successfully loaded ${exchanges.length} exchanges`);
+      } catch (e) {
+        if (tbody) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="px-5 py-8 text-center text-rose-500 font-sans">
+                Failed to load exchanges: ${e.message}
+              </td>
+            </tr>
+          `;
+        }
+        if (showToastNotice) showToast('Failed to fetch exchanges: ' + e.message, true);
+      }
+    }
+
+    function openDeclareExchangeModal() {
+      const modal = document.getElementById('declareExchangeModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        document.getElementById('modalExName')?.focus();
+      }
+    }
+
+    function closeDeclareExchangeModal() {
+      const modal = document.getElementById('declareExchangeModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
+    }
+
+    async function submitDeclareExchange() {
+      const name = document.getElementById('modalExName')?.value.trim();
+      const type = document.getElementById('modalExType')?.value || 'topic';
+      const durable = document.getElementById('modalExDurable')?.checked ?? true;
+      const autoDelete = document.getElementById('modalExAutoDelete')?.checked ?? false;
+
+      if (!name) {
+        showToast('Please provide an exchange name', true);
+        return;
+      }
+
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/exchanges`, {
+          method: 'POST',
+          headers: getBrokerHeaders(),
+          body: JSON.stringify({
+            name: name,
+            type: type,
+            durable: durable,
+            autoDelete: autoDelete
+          })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+
+        closeDeclareExchangeModal();
+        showToast(`Exchange '${name}' declared successfully!`);
+        fetchExchanges();
+        refreshBrokerOverview();
+      } catch (e) {
+        showToast('Failed to declare exchange: ' + e.message, true);
+      }
+    }
+
+    async function deleteExchange(name) {
+      if (!confirm(`Are you sure you want to delete exchange '${name}'? All bound routing will be unlinked.`)) {
+        return;
+      }
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/exchanges/${encodeURIComponent(name)}`, {
+          method: 'DELETE',
+          headers: getBrokerHeaders()
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+        showToast(`Exchange '${name}' deleted`);
+        fetchExchanges();
+        refreshBrokerOverview();
+      } catch (e) {
+        showToast('Delete failed: ' + e.message, true);
+      }
+    }
+
+    function openBindQueueModal(exchangeName) {
+      const modal = document.getElementById('bindQueueModal');
+      const disp = document.getElementById('modalBindExchangeDisplay');
+      const hidden = document.getElementById('modalBindExchangeHidden');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        if (disp) disp.textContent = exchangeName;
+        if (hidden) hidden.value = exchangeName;
+        document.getElementById('modalBindQueueName')?.focus();
+      }
+    }
+
+    function closeBindQueueModal() {
+      const modal = document.getElementById('bindQueueModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
+    }
+
+    async function submitBindQueue() {
+      const exchangeName = document.getElementById('modalBindExchangeHidden')?.value;
+      const queueName = document.getElementById('modalBindQueueName')?.value.trim();
+      const bindingKey = document.getElementById('modalBindKey')?.value.trim() || '';
+
+      if (!queueName) {
+        showToast('Please provide a queue name to bind', true);
+        return;
+      }
+
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/exchanges/${encodeURIComponent(exchangeName)}/bindings`, {
+          method: 'POST',
+          headers: getBrokerHeaders(),
+          body: JSON.stringify({
+            queueName: queueName,
+            bindingKey: bindingKey
+          })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+
+        closeBindQueueModal();
+        showToast(`Queue '${queueName}' bound to '${exchangeName}' successfully!`);
+        fetchExchanges();
+      } catch (e) {
+        showToast('Binding failed: ' + e.message, true);
+      }
+    }
+
+    // --- Queues Management ---
+    async function fetchQueues(showToastNotice = false) {
+      const tbody = document.getElementById('queuesTableBody');
+      if (showToastNotice) showToast('Syncing distributed queue fleet...');
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/queues`, {
+          headers: getBrokerHeaders()
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const queues = await res.json();
+
+        const count = Array.isArray(queues) ? queues.length : 0;
+        const countBadge = document.getElementById('queuesCountBadge');
+        if (countBadge) countBadge.textContent = `${count} Queues`;
+        const sbBadge = document.getElementById('sidebarQueuesBadge');
+        if (sbBadge) sbBadge.textContent = count;
+        const kpi = document.getElementById('kpiQueuesCount');
+        if (kpi) kpi.textContent = count;
+
+        if (!tbody) return;
+        if (!Array.isArray(queues) || queues.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" class="px-5 py-8 text-center text-slate-400 font-sans">
+                No queues declared yet. Click '+ Declare Queue' to create one.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        let html = '';
+        for (const q of queues) {
+          const m = q.metrics || {};
+          const isPaused = m.paused || q.status === 'PAUSED';
+          const statusBadge = isPaused
+            ? '<span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/15 text-amber-500 border border-amber-500/30">PAUSED</span>'
+            : '<span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/15 text-emerald-500 border border-emerald-500/30">ACTIVE</span>';
+
+          const waitingBadge = (m.waiting ?? 0) > 0 
+            ? `<span class="px-2 py-0.5 rounded font-extrabold bg-sky-500/15 text-sky-400">${m.waiting}</span>`
+            : `<span class="text-slate-400">0</span>`;
+
+          const activeBadge = (m.active ?? 0) > 0 
+            ? `<span class="px-2 py-0.5 rounded font-extrabold bg-emerald-500/15 text-emerald-400 animate-pulse">${m.active}</span>`
+            : `<span class="text-slate-400">0</span>`;
+
+          const delayedBadge = (m.delayed ?? 0) > 0 
+            ? `<span class="px-2 py-0.5 rounded font-extrabold bg-purple-500/15 text-purple-400">${m.delayed}</span>`
+            : `<span class="text-slate-400">0</span>`;
+
+          const failedBadge = (m.failed ?? 0) > 0 
+            ? `<span class="px-2 py-0.5 rounded font-extrabold bg-rose-500/15 text-rose-400">${m.failed}</span>`
+            : `<span class="text-slate-400">0</span>`;
+
+          const dlxInfo = q.deadLetterExchange ? `<span class="text-[10px] text-rose-400 font-mono">${q.deadLetterExchange}</span>` : '<span class="text-slate-500 text-[10px]">None</span>';
+
+          html += `
+            <tr class="hover:bg-slate-50 dark:hover:bg-white/[0.02] transition">
+              <td class="px-5 py-4 font-bold text-slate-900 dark:text-white">
+                <div>${q.name}</div>
+                <div class="text-[10px] text-slate-400 font-sans mt-0.5">TTL: ${q.messageTtlMs ? Math.round(q.messageTtlMs / 1000) + 's' : 'none'} &bull; Concurrency: ${q.concurrencyLimit ?? 50}</div>
+              </td>
+              <td class="px-5 py-4">${statusBadge}</td>
+              <td class="px-5 py-4">${waitingBadge}</td>
+              <td class="px-5 py-4">${activeBadge}</td>
+              <td class="px-5 py-4">${delayedBadge}</td>
+              <td class="px-5 py-4">${failedBadge}</td>
+              <td class="px-5 py-4">${dlxInfo}</td>
+              <td class="px-5 py-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                  <button 
+                    type="button" 
+                    onclick="toggleQueuePause('${q.name}', ${isPaused})" 
+                    class="px-2 py-1 rounded-lg text-[10px] font-semibold ${isPaused ? 'text-emerald-500 bg-emerald-500/10 hover:bg-emerald-500/20' : 'text-amber-500 bg-amber-500/10 hover:bg-amber-500/20'} cursor-pointer transition"
+                    title="${isPaused ? 'Resume queue' : 'Pause queue'}"
+                  >
+                    ${isPaused ? 'Resume' : 'Pause'}
+                  </button>
+                  <button 
+                    type="button" 
+                    onclick="purgeQueue('${q.name}')" 
+                    class="px-2 py-1 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-amber-400 bg-slate-100 dark:bg-white/5 cursor-pointer transition"
+                    title="Purge waiting jobs"
+                  >
+                    Purge
+                  </button>
+                  <button 
+                    type="button" 
+                    onclick="deleteQueue('${q.name}')" 
+                    class="px-2 py-1 rounded-lg text-[10px] font-semibold text-rose-500 bg-rose-500/10 hover:bg-rose-500/20 cursor-pointer transition"
+                    title="Delete queue"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+        tbody.innerHTML = html;
+        if (showToastNotice) showToast(`Successfully loaded ${queues.length} queues`);
+      } catch (e) {
+        if (tbody) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" class="px-5 py-8 text-center text-rose-500 font-sans">
+                Failed to load queues: ${e.message}
+              </td>
+            </tr>
+          `;
+        }
+        if (showToastNotice) showToast('Failed to fetch queues: ' + e.message, true);
+      }
+    }
+
+    function openDeclareQueueModal() {
+      const modal = document.getElementById('declareQueueModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        document.getElementById('modalQName')?.focus();
+      }
+    }
+
+    function closeDeclareQueueModal() {
+      const modal = document.getElementById('declareQueueModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
+    }
+
+    async function submitDeclareQueue() {
+      const name = document.getElementById('modalQName')?.value.trim();
+      const durable = document.getElementById('modalQDurable')?.checked ?? true;
+      const priority = document.getElementById('modalQPriority')?.checked ?? false;
+      const maxAttempts = parseInt(document.getElementById('modalQMaxAttempts')?.value || '5', 10);
+      const concurrency = parseInt(document.getElementById('modalQConcurrency')?.value || '50', 10);
+      const deadLetterExchange = document.getElementById('modalQDlExchange')?.value.trim() || undefined;
+      const deadLetterRoutingKey = document.getElementById('modalQDlKey')?.value.trim() || undefined;
+
+      if (!name) {
+        showToast('Please provide a queue name', true);
+        return;
+      }
+
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/queues`, {
+          method: 'POST',
+          headers: getBrokerHeaders(),
+          body: JSON.stringify({
+            name: name,
+            durable: durable,
+            priority: priority,
+            maxAttempts: maxAttempts,
+            concurrencyLimit: concurrency,
+            deadLetterExchange: deadLetterExchange,
+            deadLetterRoutingKey: deadLetterRoutingKey
+          })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+
+        closeDeclareQueueModal();
+        showToast(`Queue '${name}' declared successfully!`);
+        fetchQueues();
+        refreshBrokerOverview();
+      } catch (e) {
+        showToast('Failed to declare queue: ' + e.message, true);
+      }
+    }
+
+    async function toggleQueuePause(queueName, isCurrentlyPaused) {
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const endpoint = isCurrentlyPaused ? 'resume' : 'pause';
+        const res = await fetch(`${wahaUrl}/api/v1/queues/${encodeURIComponent(queueName)}/${endpoint}`, {
+          method: 'POST',
+          headers: getBrokerHeaders()
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+        showToast(`Queue '${queueName}' ${isCurrentlyPaused ? 'resumed' : 'paused'}`);
+        fetchQueues();
+      } catch (e) {
+        showToast('Operation failed: ' + e.message, true);
+      }
+    }
+
+    async function purgeQueue(queueName) {
+      if (!confirm(`Are you sure you want to purge all waiting jobs in queue '${queueName}'?`)) {
+        return;
+      }
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/queues/${encodeURIComponent(queueName)}/purge`, {
+          method: 'POST',
+          headers: getBrokerHeaders()
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+        showToast(`Queue '${queueName}' purged`);
+        fetchQueues();
+      } catch (e) {
+        showToast('Purge failed: ' + e.message, true);
+      }
+    }
+
+    async function deleteQueue(queueName) {
+      if (!confirm(`Are you sure you want to permanently delete queue '${queueName}'?`)) {
+        return;
+      }
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/queues/${encodeURIComponent(queueName)}`, {
+          method: 'DELETE',
+          headers: getBrokerHeaders()
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+        showToast(`Queue '${queueName}' deleted`);
+        fetchQueues();
+        refreshBrokerOverview();
+      } catch (e) {
+        showToast('Delete failed: ' + e.message, true);
+      }
+    }
+
+    // --- Dead Letter Office Management ---
+    let currentDeadLettersCache = [];
+
+    async function fetchDeadLetters(showToastNotice = false) {
+      const tbody = document.getElementById('dlqTableBody');
+      if (showToastNotice) showToast('Syncing Dead Letter Office...');
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/dead-letter?limit=50`, {
+          headers: getBrokerHeaders()
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const items = Array.isArray(data) ? data : (data.items || []);
+        currentDeadLettersCache = items;
+
+        const countBadge = document.getElementById('dlqCountBadge');
+        if (countBadge) countBadge.textContent = `${items.length} Quarantined`;
+        const sbBadge = document.getElementById('sidebarDlqBadge');
+        if (sbBadge) sbBadge.textContent = items.length;
+        const kpi = document.getElementById('kpiDlqCount');
+        if (kpi) kpi.textContent = items.length;
+
+        if (!tbody) return;
+        if (items.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="px-5 py-8 text-center text-slate-400 font-sans">
+                No quarantined dead letters found. All queues healthy!
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        let html = '';
+        for (const dlq of items) {
+          const shortId = dlq.id ? dlq.id.substring(0, 16) + '...' : 'dlq';
+          const reasonSnippet = dlq.failureReason 
+            ? (dlq.failureReason.length > 50 ? dlq.failureReason.substring(0, 50) + '...' : dlq.failureReason)
+            : 'Unknown failure';
+          const dateStr = dlq.createdAt ? new Date(dlq.createdAt).toLocaleString() : 'N/A';
+
+          html += `
+            <tr class="hover:bg-slate-50 dark:hover:bg-white/[0.02] transition">
+              <td class="px-5 py-4 font-bold text-rose-500 font-mono" title="${dlq.id}">${shortId}</td>
+              <td class="px-5 py-4">
+                <span class="text-slate-900 dark:text-white font-bold font-mono">${dlq.queueName || 'default'}</span>
+                <span class="text-slate-400 block text-[10px] font-mono">${dlq.routingKey || '#'}</span>
+              </td>
+              <td class="px-5 py-4 text-center font-bold text-rose-400">${dlq.retryAttempts ?? 0}</td>
+              <td class="px-5 py-4 text-rose-400 font-mono text-[11px]" title="${dlq.failureReason || ''}">${reasonSnippet}</td>
+              <td class="px-5 py-4 text-slate-400 text-[11px] font-sans">${dateStr}</td>
+              <td class="px-5 py-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                  <button 
+                    type="button" 
+                    onclick="inspectDeadLetter('${dlq.id}')" 
+                    class="px-2.5 py-1 rounded-lg text-[10px] font-semibold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/5 hover:border-slate-400 cursor-pointer transition"
+                    title="Forensic inspection"
+                  >
+                    Inspect
+                  </button>
+                  <button 
+                    type="button" 
+                    onclick="replayDeadLetter('${dlq.id}')" 
+                    class="px-2.5 py-1 rounded-lg text-[10px] font-semibold text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 cursor-pointer transition"
+                    title="1-Click Replay"
+                  >
+                    Replay
+                  </button>
+                  <button 
+                    type="button" 
+                    onclick="discardDeadLetter('${dlq.id}')" 
+                    class="px-2 py-1 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-rose-500 cursor-pointer transition"
+                    title="Discard"
+                  >
+                    &times;
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+        tbody.innerHTML = html;
+        if (showToastNotice) showToast(`Successfully loaded ${items.length} dead letters`);
+      } catch (e) {
+        if (tbody) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" class="px-5 py-8 text-center text-rose-500 font-sans">
+                Failed to load dead letters: ${e.message}
+              </td>
+            </tr>
+          `;
+        }
+        if (showToastNotice) showToast('Failed to fetch DLQ: ' + e.message, true);
+      }
+    }
+
+    async function replayDeadLetter(id) {
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/dead-letter/${encodeURIComponent(id)}/replay`, {
+          method: 'POST',
+          headers: getBrokerHeaders(),
+          body: JSON.stringify({})
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+        showToast(`Dead letter re-driven successfully!`);
+        fetchDeadLetters();
+        refreshBrokerOverview();
+      } catch (e) {
+        showToast('Replay failed: ' + e.message, true);
+      }
+    }
+
+    async function bulkReplayDeadLetters() {
+      if (!confirm('Re-drive all pending dead letter messages back to their exchanges?')) {
+        return;
+      }
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/dead-letter/bulk-replay`, {
+          method: 'POST',
+          headers: getBrokerHeaders(),
+          body: JSON.stringify({ limit: 100 })
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+        const result = await res.json();
+        showToast(`Bulk replay complete: ${result.replayedCount ?? 0} messages re-driven!`);
+        fetchDeadLetters();
+        refreshBrokerOverview();
+      } catch (e) {
+        showToast('Bulk replay failed: ' + e.message, true);
+      }
+    }
+
+    async function discardDeadLetter(id) {
+      if (!confirm('Permanently discard this quarantined message? This action is irreversible.')) {
+        return;
+      }
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/dead-letter/${encodeURIComponent(id)}`, {
+          method: 'DELETE',
+          headers: getBrokerHeaders()
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+        showToast('Dead letter discarded');
+        fetchDeadLetters();
+        refreshBrokerOverview();
+      } catch (e) {
+        showToast('Discard failed: ' + e.message, true);
+      }
+    }
+
+    function inspectDeadLetter(id) {
+      const item = currentDeadLettersCache.find(x => x.id === id);
+      if (!item) {
+        showToast('Item details not found', true);
+        return;
+      }
+      const modal = document.getElementById('deadLetterModal');
+      if (!modal) return;
+
+      document.getElementById('dlqModalId').textContent = item.id;
+      document.getElementById('dlqModalQueue').textContent = item.queueName || 'default';
+      document.getElementById('dlqModalKey').textContent = item.routingKey || '#';
+      document.getElementById('dlqModalAttempts').textContent = item.retryAttempts ?? 0;
+      document.getElementById('dlqModalError').textContent = item.failureReason || 'No error details recorded';
+
+      let payloadStr = '{}';
+      try {
+        payloadStr = typeof item.payload === 'string' ? item.payload : JSON.stringify(item.payload, null, 2);
+      } catch (e) {
+        payloadStr = String(item.payload);
+      }
+      document.getElementById('dlqModalPayload').textContent = payloadStr;
+
+      const replayBtn = document.getElementById('dlqModalReplayBtn');
+      if (replayBtn) {
+        replayBtn.onclick = () => {
+          closeDeadLetterModal();
+          replayDeadLetter(item.id);
+        };
+      }
+
+      const discardBtn = document.getElementById('dlqModalDiscardBtn');
+      if (discardBtn) {
+        discardBtn.onclick = () => {
+          closeDeadLetterModal();
+          discardDeadLetter(item.id);
+        };
+      }
+
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    }
+
+    function closeDeadLetterModal() {
+      const modal = document.getElementById('deadLetterModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+      }
+    }
+
+    // --- Direct Event Publisher Workbench ---
+    async function submitBrokerTestPublish() {
+      const exchange = document.getElementById('testPubExchange')?.value.trim();
+      const routingKey = document.getElementById('testPubRoutingKey')?.value.trim();
+      const priority = parseInt(document.getElementById('testPubPriority')?.value || '5', 10);
+      const payloadRaw = document.getElementById('testPubPayload')?.value.trim() || '{}';
+      const statusEl = document.getElementById('testPubStatus');
+      const resultBox = document.getElementById('testPubResultBox');
+      const resultPre = document.getElementById('testPubResultPre');
+
+      if (!exchange || !routingKey) {
+        showToast('Please provide both exchange and routing key', true);
+        return;
+      }
+
+      let payloadJson;
+      try {
+        payloadJson = JSON.parse(payloadRaw);
+      } catch (e) {
+        showToast('Payload is not valid JSON: ' + e.message, true);
+        return;
+      }
+
+      if (statusEl) statusEl.textContent = 'Publishing to broker...';
+      try {
+        const wahaUrl = getWahaBaseUrl();
+        const res = await fetch(`${wahaUrl}/api/v1/messages/publish`, {
+          method: 'POST',
+          headers: getBrokerHeaders(),
+          body: JSON.stringify({
+            exchange: exchange,
+            routingKey: routingKey,
+            payload: payloadJson,
+            options: {
+              priority: priority,
+              persistent: true
+            }
+          })
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.message || `HTTP ${res.status}`);
+        }
+
+        const result = await res.json();
+        if (statusEl) statusEl.textContent = 'Event published successfully!';
+        if (resultBox && resultPre) {
+          resultBox.classList.remove('hidden');
+          resultPre.textContent = JSON.stringify(result, null, 2);
+        }
+        showToast(`Event published to '${exchange}' [${routingKey}]!`);
+        refreshBrokerOverview();
+      } catch (e) {
+        if (statusEl) statusEl.textContent = 'Publish failed';
+        showToast('Publish failed: ' + e.message, true);
+      }
+    }
+
     function initDashboard() {
       loadTenants();
       loadEventLogs();
       renderAllTables();
       syncLiveSessions();
       syncLiveChats();
+      refreshBrokerOverview();
     }
 
     function initAppAuth() {
