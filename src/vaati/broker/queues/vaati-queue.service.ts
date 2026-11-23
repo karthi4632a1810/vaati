@@ -51,7 +51,7 @@ export class VaatiQueueService implements OnModuleDestroy {
   }
 
   getQueueKey(tenantId: string, queueName: string): string {
-    return `vaati:${tenantId}:${queueName}`;
+    return `${tenantId}_${queueName}`;
   }
 
   getOrCreateQueue(tenantId: string, queueName: string): Queue | null {
@@ -64,6 +64,7 @@ export class VaatiQueueService implements OnModuleDestroy {
     if (!queue) {
       queue = new Queue(key, {
         connection: this.redisClient,
+        prefix: 'vaati',
         defaultJobOptions: {
           attempts: 5,
           backoff: {

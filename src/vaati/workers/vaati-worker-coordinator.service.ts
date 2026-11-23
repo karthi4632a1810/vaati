@@ -60,7 +60,7 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
   }
 
   getWorkerKey(tenantId: string, queueName: string): string {
-    return `vaati:${tenantId}:${queueName}`;
+    return `${tenantId}_${queueName}`;
   }
 
   registerInternalHandler(handlerName: string, handler: ConsumerHandler): void {
@@ -157,6 +157,7 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
       },
       {
         connection: this.redisClient,
+        prefix: 'vaati',
         concurrency: concurrency,
         lockDuration: 30000,
       },
