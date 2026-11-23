@@ -6,11 +6,13 @@ import { VaatiQueueService } from '@waha/vaati/broker/queues/vaati-queue.service
 import { ExchangeRouterService } from '@waha/vaati/broker/routing/exchange-router';
 import { VaatiConfigService } from '@waha/vaati/config/vaati.config';
 import { VaatiApiKeysController } from '@waha/vaati/controllers/vaati.apikeys.controller';
+import { VaatiConsumersController } from '@waha/vaati/controllers/vaati.consumers.controller';
 import { VaatiExchangesController } from '@waha/vaati/controllers/vaati.exchanges.controller';
 import { VaatiHealthController } from '@waha/vaati/controllers/vaati.health.controller';
 import { VaatiMessagesController } from '@waha/vaati/controllers/vaati.messages.controller';
 import { VaatiQueuesController } from '@waha/vaati/controllers/vaati.queues.controller';
 import { VaatiTenantsController } from '@waha/vaati/controllers/vaati.tenants.controller';
+import { VaatiWorkersController } from '@waha/vaati/controllers/vaati.workers.controller';
 import { VaatiDatabaseService } from '@waha/vaati/database/vaati.database';
 import { VaatiRateLimitService } from '@waha/vaati/rate-limit/vaati-rate-limit.service';
 import { ApiKeyRepository } from '@waha/vaati/repositories/api-key.repository';
@@ -21,6 +23,8 @@ import { ExchangeRepository } from '@waha/vaati/repositories/exchange.repository
 import { MessageRepository } from '@waha/vaati/repositories/message.repository';
 import { QueueRepository } from '@waha/vaati/repositories/queue.repository';
 import { TenantRepository } from '@waha/vaati/repositories/tenant.repository';
+import { VaatiCircuitBreakerService } from '@waha/vaati/workers/circuit-breaker.service';
+import { VaatiWorkerCoordinator } from '@waha/vaati/workers/vaati-worker-coordinator.service';
 
 @Module({
   imports: [],
@@ -31,6 +35,8 @@ import { TenantRepository } from '@waha/vaati/repositories/tenant.repository';
     VaatiExchangesController,
     VaatiQueuesController,
     VaatiMessagesController,
+    VaatiWorkersController,
+    VaatiConsumersController,
   ],
   providers: [
     VaatiConfigService,
@@ -49,6 +55,8 @@ import { TenantRepository } from '@waha/vaati/repositories/tenant.repository';
     ExchangeRouterService,
     VaatiQueueService,
     VaatiPublisherService,
+    VaatiCircuitBreakerService,
+    VaatiWorkerCoordinator,
   ],
   exports: [
     VaatiConfigService,
@@ -67,6 +75,8 @@ import { TenantRepository } from '@waha/vaati/repositories/tenant.repository';
     ExchangeRouterService,
     VaatiQueueService,
     VaatiPublisherService,
+    VaatiCircuitBreakerService,
+    VaatiWorkerCoordinator,
   ],
 })
 export class VaatiModule {}
