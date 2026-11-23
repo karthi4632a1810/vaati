@@ -162,3 +162,7 @@ yarn gows:proto
 yarn start
 # open http://localhost:3000
 ```
+
+# vaati
+
+VAATI - WhatsApp Business Platform & Super Admin Portal
