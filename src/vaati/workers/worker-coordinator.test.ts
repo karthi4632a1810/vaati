@@ -13,6 +13,7 @@ describe('VaatiWorkerCoordinator', () => {
   let mockMessageRepo: any;
   let mockDlqRepo: any;
   let mockCircuitBreaker: any;
+  let mockMetricsService: any;
   let mockLogger: any;
 
   const testQueue: VaatiQueue = {
@@ -54,6 +55,11 @@ describe('VaatiWorkerCoordinator', () => {
       recordFailure: jest.fn(),
     };
 
+    mockMetricsService = {
+      recordConsumed: jest.fn(),
+      observeDuration: jest.fn(),
+    };
+
     mockLogger = {
       info: jest.fn(),
       warn: jest.fn(),
@@ -67,6 +73,7 @@ describe('VaatiWorkerCoordinator', () => {
       mockMessageRepo,
       mockDlqRepo,
       mockCircuitBreaker,
+      mockMetricsService,
       mockLogger,
     );
   });
@@ -142,6 +149,8 @@ describe('VaatiWorkerCoordinator', () => {
       'msg-999',
       VaatiMessageStatus.ACKNOWLEDGED,
     );
+    expect(mockMetricsService.recordConsumed).toHaveBeenCalledWith('hosp-001', 'lab.processing.queue', 'ack');
+    expect(mockMetricsService.observeDuration).toHaveBeenCalled();
   });
 
   test('schedules retry when job fails before max attempts', async () => {
@@ -168,6 +177,7 @@ describe('VaatiWorkerCoordinator', () => {
       VaatiMessageStatus.RETRY_SCHEDULED,
       expect.objectContaining({ errorSummary: 'LIS connection timeout' }),
     );
+    expect(mockMetricsService.recordConsumed).toHaveBeenCalledWith('hosp-001', 'lab.processing.queue', 'retry');
     expect(mockDlqRepo.create).not.toHaveBeenCalled();
   });
 
@@ -201,6 +211,7 @@ describe('VaatiWorkerCoordinator', () => {
       expect.objectContaining({ errorSummary: 'Fatal schema corruption' }),
     );
 
+    expect(mockMetricsService.recordConsumed).toHaveBeenCalledWith('hosp-001', 'lab.processing.queue', 'dead_letter');
     expect(mockDlqRepo.create).toHaveBeenCalledWith(
       expect.objectContaining({
         tenantId: 'hosp-001',

@@ -14,6 +14,7 @@ describe('VaatiPublisherService', () => {
   let mockRouterService: any;
   let mockQueueService: any;
   let mockRateLimitService: any;
+  let mockMetricsService: any;
   let mockLogger: any;
 
   const authContext: VaatiAuthContext = {
@@ -47,6 +48,10 @@ describe('VaatiPublisherService', () => {
     mockRateLimitService = {
       checkRateLimit: jest.fn().mockResolvedValue({ allowed: true }),
     };
+    mockMetricsService = {
+      recordPublished: jest.fn(),
+      recordRouted: jest.fn(),
+    };
     mockLogger = {
       info: jest.fn(),
       warn: jest.fn(),
@@ -59,6 +64,7 @@ describe('VaatiPublisherService', () => {
       mockRouterService,
       mockQueueService,
       mockRateLimitService,
+      mockMetricsService,
       mockLogger,
     );
   });
@@ -90,6 +96,8 @@ describe('VaatiPublisherService', () => {
     );
 
     expect(mockQueueService.enqueueMessage).toHaveBeenCalledTimes(2);
+    expect(mockMetricsService.recordPublished).toHaveBeenCalledWith('tenant-100', 'hospital.events', 'PERSISTED');
+    expect(mockMetricsService.recordRouted).toHaveBeenCalledTimes(2);
     expect(mockMessageRepo.updateStatus).toHaveBeenCalledWith(
       'tenant-100',
       res.messageId,

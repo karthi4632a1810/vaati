@@ -1,4 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { PublicVaatiRoute } from '@waha/vaati/auth/decorators';
 import { VaatiConfigService } from '@waha/vaati/config/vaati.config';
@@ -43,5 +48,37 @@ export class VaatiHealthController {
         heapTotalBytes: memoryUsage.heapTotal,
       },
     };
+  }
+
+  @Get('liveness')
+  @PublicVaatiRoute()
+  @ApiOperation({ summary: 'Kubernetes/Docker container liveness probe' })
+  async getLiveness() {
+    return {
+      status: 'UP',
+      uptimeSeconds: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  @Get('readiness')
+  @PublicVaatiRoute()
+  @ApiOperation({ summary: 'Kubernetes/Docker container readiness probe' })
+  async getReadiness() {
+    try {
+      await this.db.knex.raw('SELECT 1');
+      return {
+        status: 'UP',
+        database: 'UP',
+        timestamp: new Date().toISOString(),
+      };
+    } catch (err: any) {
+      throw new ServiceUnavailableException({
+        statusCode: HttpStatus.SERVICE_UNAVAILABLE,
+        status: 'DOWN',
+        database: 'DOWN',
+        error: err.message,
+      });
+    }
   }
 }

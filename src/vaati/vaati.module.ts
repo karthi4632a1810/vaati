@@ -7,16 +7,19 @@ import { VaatiQueueService } from '@waha/vaati/broker/queues/vaati-queue.service
 import { ExchangeRouterService } from '@waha/vaati/broker/routing/exchange-router';
 import { VaatiConfigService } from '@waha/vaati/config/vaati.config';
 import { VaatiApiKeysController } from '@waha/vaati/controllers/vaati.apikeys.controller';
+import { VaatiAuditController } from '@waha/vaati/controllers/vaati.audit.controller';
 import { VaatiConsumersController } from '@waha/vaati/controllers/vaati.consumers.controller';
 import { VaatiDeadLetterController } from '@waha/vaati/controllers/vaati.dead-letter.controller';
 import { VaatiExchangesController } from '@waha/vaati/controllers/vaati.exchanges.controller';
 import { VaatiHealthController } from '@waha/vaati/controllers/vaati.health.controller';
 import { VaatiMessagesController } from '@waha/vaati/controllers/vaati.messages.controller';
+import { VaatiMetricsController } from '@waha/vaati/controllers/vaati.metrics.controller';
 import { VaatiQueuesController } from '@waha/vaati/controllers/vaati.queues.controller';
 import { VaatiTenantsController } from '@waha/vaati/controllers/vaati.tenants.controller';
 import { VaatiWahaController } from '@waha/vaati/controllers/vaati.waha.controller';
 import { VaatiWorkersController } from '@waha/vaati/controllers/vaati.workers.controller';
 import { VaatiDatabaseService } from '@waha/vaati/database/vaati.database';
+import { VaatiMetricsService } from '@waha/vaati/observability/vaati-metrics.service';
 import { VaatiRateLimitService } from '@waha/vaati/rate-limit/vaati-rate-limit.service';
 import { VaatiDeadLetterService } from '@waha/vaati/reliability/dlq/vaati-dead-letter.service';
 import { VaatiIdempotencyService } from '@waha/vaati/reliability/idempotency/vaati-idempotency.service';
@@ -46,6 +49,8 @@ import { VaatiWorkerCoordinator } from '@waha/vaati/workers/vaati-worker-coordin
     VaatiConsumersController,
     VaatiDeadLetterController,
     VaatiWahaController,
+    VaatiMetricsController,
+    VaatiAuditController,
   ],
   providers: [
     VaatiConfigService,
@@ -70,6 +75,7 @@ import { VaatiWorkerCoordinator } from '@waha/vaati/workers/vaati-worker-coordin
     VaatiIdempotencyService,
     VaatiDeadLetterService,
     VaatiWahaBridgeService,
+    VaatiMetricsService,
   ],
   exports: [
     VaatiConfigService,
@@ -94,6 +100,7 @@ import { VaatiWorkerCoordinator } from '@waha/vaati/workers/vaati-worker-coordin
     VaatiIdempotencyService,
     VaatiDeadLetterService,
     VaatiWahaBridgeService,
+    VaatiMetricsService,
   ],
 })
 export class VaatiModule {}

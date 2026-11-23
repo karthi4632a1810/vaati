@@ -1,7 +1,9 @@
 import * as crypto from 'node:crypto';
 
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, Optional } from '@nestjs/common';
 import { VaatiConfigService } from '@waha/vaati/config/vaati.config';
+import { extractOrCreateTraceparent } from '@waha/vaati/observability/tracing.utils';
+import { VaatiMetricsService } from '@waha/vaati/observability/vaati-metrics.service';
 import { DeadLetterRepository } from '@waha/vaati/repositories/dead-letter.repository';
 import { MessageRepository } from '@waha/vaati/repositories/message.repository';
 import { QueueRepository } from '@waha/vaati/repositories/queue.repository';
@@ -30,7 +32,8 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
     private readonly messageRepo: MessageRepository,
     private readonly dlqRepo: DeadLetterRepository,
     private readonly circuitBreaker: VaatiCircuitBreakerService,
-    @InjectPinoLogger('VaatiWorkerCoordinator') private readonly logger: PinoLogger,
+    @Optional() private readonly metricsService?: VaatiMetricsService,
+    @InjectPinoLogger('VaatiWorkerCoordinator') private readonly logger?: PinoLogger,
   ) {
     this.initRedis();
   }
@@ -45,14 +48,14 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
 
       this.redisClient.connect().then(() => {
         this.isRedisAvailable = true;
-        this.logger.info({ redisUrl: this.config.redisUrl }, 'Connected to Redis for worker coordination');
+        this.logger?.info({ redisUrl: this.config.redisUrl }, 'Connected to Redis for worker coordination');
       }).catch((err) => {
         this.isRedisAvailable = false;
-        this.logger.warn({ err: err.message }, 'Redis connection unavailable for worker coordinator');
+        this.logger?.warn({ err: err.message }, 'Redis connection unavailable for worker coordinator');
       });
     } catch (err: any) {
       this.isRedisAvailable = false;
-      this.logger.warn({ err: err.message }, 'Failed to initialize Redis client in coordinator');
+      this.logger?.warn({ err: err.message }, 'Failed to initialize Redis client in coordinator');
     }
   }
 
@@ -62,7 +65,7 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
 
   registerInternalHandler(handlerName: string, handler: ConsumerHandler): void {
     this.internalHandlers.set(handlerName, handler);
-    this.logger.info({ handler: handlerName }, 'Registered internal consumer handler');
+    this.logger?.info({ handler: handlerName }, 'Registered internal consumer handler');
   }
 
   async subscribe(
@@ -160,7 +163,7 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
     );
 
     this.workers.set(workerKey, worker);
-    this.logger.info({ workerKey: workerKey, concurrency: concurrency }, 'Worker started for queue');
+    this.logger?.info({ workerKey: workerKey, concurrency: concurrency }, 'Worker started for queue');
   }
 
   private async processJob(
@@ -172,11 +175,15 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
     const messageId = String(job.data?.messageId ?? job.id);
     const attemptsMade = job.attemptsMade + 1;
     const maxAttempts = queue.maxAttempts ?? 5;
+    const startTime = Date.now();
 
     // 1. Transition state: DELIVERED_TO_CONSUMER -> PROCESSING
     await this.messageRepo.updateStatus(tenantId, messageId, VaatiMessageStatus.PROCESSING, {
       incrementAttempts: true,
     });
+
+    const headers = job.data?.headers ?? {};
+    const traceparent = extractOrCreateTraceparent(headers);
 
     const consumerMsg: ConsumerMessage = {
       messageId: messageId,
@@ -184,7 +191,7 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
       exchange: job.data?.exchange ?? '',
       routingKey: job.data?.routingKey ?? '',
       correlationId: job.data?.correlationId,
-      headers: job.data?.headers ?? {},
+      headers: headers,
       payload: job.data?.payload ?? job.data,
       attemptsMade: attemptsMade,
     };
@@ -203,13 +210,18 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
           }
         }
         if (sub.targetWebhookUrl) {
-          await this.dispatchWebhook(sub.targetWebhookUrl, consumerMsg);
+          await this.dispatchWebhook(sub.targetWebhookUrl, consumerMsg, traceparent);
         }
       }
 
       // 2. Successful execution: ACK
       await this.messageRepo.updateStatus(tenantId, messageId, VaatiMessageStatus.ACKNOWLEDGED);
-      this.logger.debug({ messageId: messageId, queue: queueName }, 'Message processed and ACKNOWLEDGED');
+      const durationSeconds = (Date.now() - startTime) / 1000;
+
+      this.metricsService?.recordConsumed(tenantId, queueName, 'ack');
+      this.metricsService?.observeDuration(tenantId, queueName, durationSeconds);
+
+      this.logger?.debug({ messageId: messageId, queue: queueName, durationSeconds: durationSeconds }, 'Message processed and ACKNOWLEDGED');
       return { success: true };
     } catch (err: any) {
       // 3. Failure Handling: Retry or DLQ
@@ -217,7 +229,8 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
 
       if (isTerminal) {
         await this.handleDeadLetter(tenantId, queue, messageId, consumerMsg, err, attemptsMade);
-        this.logger.error(
+        this.metricsService?.recordConsumed(tenantId, queueName, 'dead_letter');
+        this.logger?.error(
           { messageId: messageId, queue: queueName, attemptsMade: attemptsMade, error: err.message },
           'Message processing failed terminally; moved to DEAD_LETTERED',
         );
@@ -225,7 +238,8 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
         await this.messageRepo.updateStatus(tenantId, messageId, VaatiMessageStatus.RETRY_SCHEDULED, {
           errorSummary: err.message,
         });
-        this.logger.warn(
+        this.metricsService?.recordConsumed(tenantId, queueName, 'retry');
+        this.logger?.warn(
           { messageId: messageId, queue: queueName, attemptsMade: attemptsMade, error: err.message },
           'Message processing failed; RETRY_SCHEDULED',
         );
@@ -235,7 +249,7 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
     }
   }
 
-  private async dispatchWebhook(webhookUrl: string, msg: ConsumerMessage): Promise<void> {
+  private async dispatchWebhook(webhookUrl: string, msg: ConsumerMessage, traceparent: string): Promise<void> {
     if (!this.circuitBreaker.canExecute(webhookUrl)) {
       throw new Error(`Circuit breaker is OPEN for webhook target: ${webhookUrl}`);
     }
@@ -254,6 +268,7 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
           'X-Vaati-Signature': signature,
           'X-Vaati-Message-Id': msg.messageId,
           'X-Vaati-Routing-Key': msg.routingKey,
+          'traceparent': traceparent,
         },
         body: payloadStr,
         signal: controller.signal,
@@ -308,7 +323,7 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
       try {
         await worker.close();
       } catch (err: any) {
-        this.logger.warn({ key: key, err: err.message }, 'Error closing worker during shutdown');
+        this.logger?.warn({ key: key, err: err.message }, 'Error closing worker during shutdown');
       }
     }
     this.workers.clear();
@@ -317,7 +332,7 @@ export class VaatiWorkerCoordinator implements OnModuleDestroy {
       try {
         await this.redisClient.quit();
       } catch (err: any) {
-        this.logger.warn({ err: err.message }, 'Error closing Redis client in coordinator');
+        this.logger?.warn({ err: err.message }, 'Error closing Redis client in coordinator');
       }
     }
   }

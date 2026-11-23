@@ -5,11 +5,14 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  Optional,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { VaatiQueueService } from '@waha/vaati/broker/queues/vaati-queue.service';
 import { ExchangeRouterService } from '@waha/vaati/broker/routing/exchange-router';
 import { matchTopic } from '@waha/vaati/broker/routing/topic-matcher';
+import { extractOrCreateTraceparent, injectTraceparent } from '@waha/vaati/observability/tracing.utils';
+import { VaatiMetricsService } from '@waha/vaati/observability/vaati-metrics.service';
 import { VaatiRateLimitService } from '@waha/vaati/rate-limit/vaati-rate-limit.service';
 import { MessageRepository } from '@waha/vaati/repositories/message.repository';
 import { TenantRepository } from '@waha/vaati/repositories/tenant.repository';
@@ -40,7 +43,8 @@ export class VaatiPublisherService {
     private readonly routerService: ExchangeRouterService,
     private readonly queueService: VaatiQueueService,
     private readonly rateLimitService: VaatiRateLimitService,
-    @InjectPinoLogger('VaatiPublisherService') private readonly logger: PinoLogger,
+    @Optional() private readonly metricsService?: VaatiMetricsService,
+    @InjectPinoLogger('VaatiPublisherService') private readonly logger?: PinoLogger,
   ) {}
 
   async publish(dto: PublishMessageDto, auth: VaatiAuthContext): Promise<PublishResult> {
@@ -79,7 +83,7 @@ export class VaatiPublisherService {
     if (dto.idempotencyKey) {
       const existing = await this.messageRepo.findByIdempotencyKey(targetTenantId, dto.idempotencyKey);
       if (existing) {
-        this.logger.info(
+        this.logger?.info(
           { tenantId: targetTenantId, idempotencyKey: dto.idempotencyKey, messageId: existing.id },
           'Duplicate message detected via idempotency key; returning existing record',
         );
@@ -98,6 +102,11 @@ export class VaatiPublisherService {
     const opts = dto.options ?? {};
     const now = new Date().toISOString();
 
+    // W3C Traceparent injection
+    const headers = { ...(dto.headers ?? {}) };
+    const traceparent = extractOrCreateTraceparent(headers);
+    injectTraceparent(headers, traceparent);
+
     // 1. Transactional Outbox: Persist durable message
     await this.messageRepo.create({
       id: messageId,
@@ -107,7 +116,7 @@ export class VaatiPublisherService {
       correlationId: dto.correlationId ?? null,
       causationId: dto.causationId ?? null,
       idempotencyKey: dto.idempotencyKey ?? null,
-      headers: dto.headers ?? {},
+      headers: headers,
       payload: dto.payload,
       priority: opts.priority ?? 0,
       ttlMs: opts.ttl ?? null,
@@ -115,12 +124,14 @@ export class VaatiPublisherService {
       status: VaatiMessageStatus.PERSISTED,
     });
 
+    this.metricsService?.recordPublished(targetTenantId, dto.exchange, 'PERSISTED');
+
     // 2. Exchange Routing: evaluate bound queues
     const matchedQueues = await this.routerService.routeMessage(
       targetTenantId,
       dto.exchange,
       dto.routingKey,
-      dto.headers ?? {},
+      headers,
     );
 
     // Mandatory routing check
@@ -141,7 +152,7 @@ export class VaatiPublisherService {
         exchange: dto.exchange,
         routingKey: dto.routingKey,
         correlationId: dto.correlationId,
-        headers: dto.headers,
+        headers: headers,
         payload: dto.payload,
       }, {
         priority: opts.priority,
@@ -149,13 +160,15 @@ export class VaatiPublisherService {
         ttl: opts.ttl,
         maxAttempts: opts.maxAttempts,
       });
+
+      this.metricsService?.recordRouted(targetTenantId, dto.exchange, queueName);
     }
 
     // 4. Update status to ROUTED
     const finalStatus = matchedQueues.length > 0 ? VaatiMessageStatus.ROUTED : VaatiMessageStatus.PERSISTED;
     await this.messageRepo.updateStatus(targetTenantId, messageId, finalStatus);
 
-    this.logger.info(
+    this.logger?.info(
       { tenantId: targetTenantId, exchange: dto.exchange, routingKey: dto.routingKey, messageId: messageId, routedQueues: matchedQueues },
       'Message successfully routed',
     );
